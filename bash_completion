@@ -1,0 +1,23 @@
+_terminal_color_theme_complete()
+{
+    local cur_word prev_word type_list
+
+    # COMP_WORDS is an array of words in the current command line.
+    # COMP_CWORD is the index of the current word (the one the cursor is
+    # in). So COMP_WORDS[COMP_CWORD] is the current word; we also record
+    # the previous word here, although this specific script doesn't
+    # use it yet.
+    cur_word="${COMP_WORDS[COMP_CWORD]}"
+    prev_word="${COMP_WORDS[COMP_CWORD-1]}"
+
+    # Ask pss to generate a list of types it supports
+    type_list="$(ls /usr/share/xfce4/terminal/colorschemes/ | sed 's/.theme//g')"
+
+    # COMPREPLY is the array of possible completions, generated with
+    # the compgen builtin.
+    COMPREPLY=( $(compgen -W "${type_list}" -- ${cur_word}) )
+    return 0
+}
+
+complete -F _terminal_color_theme_complete terminal-color-theme
+
