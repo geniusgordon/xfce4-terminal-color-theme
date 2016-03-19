@@ -1,0 +1,27 @@
+#! /bin/bash
+function listThemes {
+  ls /usr/share/xfce4/terminal/colorschemes/ | sed 's/.theme//g'
+}
+
+function applyTheme {
+  if ! [[ -f /usr/share/xfce4/terminal/colorschemes/$1.theme ]]
+  then
+    echo "No such colorscheme: $1"
+    exit 1
+  fi
+
+  cd ~/.config/xfce4/terminal
+  grep -Fxvf <(cat /usr/share/xfce4/terminal/colorschemes/*.theme) terminalrc > .terminalrc.tmp
+  grep -v -e Name -e Scheme "/usr/share/xfce4/terminal/colorschemes/$1.theme" >> .terminalrc.tmp
+  cp terminalrc terminalrc.bak
+  mv .terminalrc.tmp terminalrc
+}
+
+if [ $1 == '-l' -o $1 == '--list' ]
+then
+  listThemes
+  exit 0
+fi
+
+applyTheme $1
+
