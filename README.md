@@ -34,4 +34,3 @@ sudo cp ./bash_completion /usr/share/bash-completion/completions/terminal-color-
 ```
 sudo cp ./bash_completion /etc/bash_completion.d/terminal-color-theme
 ```
-```
